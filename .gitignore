@@ -1,0 +1,23 @@
+# --- Java & Maven ---
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- VS Code ---
+.vscode/
+
+# --- Operating System ---
+.DS_Store
+Thumbs.db
+
+# --- Environment Secrets (If you ever use them here) ---
+.env
