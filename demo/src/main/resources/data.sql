@@ -1,0 +1,16 @@
+INSERT INTO employees (name, department, age, salary) VALUES
+                                                          ('Alice', 'IT', 28, 5000),
+                                                          ('Bob', 'HR', 35, 4500),
+                                                          ('Charlie', 'IT', 40, 7000),
+                                                          ('Diana', 'Finance', 30, 6000),
+                                                          ('Eve', 'HR', 25, 4000),
+                                                          ('Frank', 'Finance', 45, 8000),
+                                                          ('Grace', 'IT', 32, 5500),
+                                                          ('Hank', 'HR', 29, 4200),
+                                                          ('Ivy', 'Finance', 38, 7200),
+                                                          ('Jack', 'IT', 27, 4800),
+                                                          ('Karen', 'HR', 41, 5300),
+                                                          ('Leo', 'Finance', 33, 6100),
+                                                          ('Mona', 'IT', 36, 6400),
+                                                          ('Nate', 'HR', 31, 4600),
+                                                          ('Olivia', 'Finance', 28, 5800);
