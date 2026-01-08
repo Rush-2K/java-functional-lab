@@ -22,7 +22,6 @@ public class EmployeeService {
     public List<EmployeeResponseDTO> getAllEmployee() {
         List<Employee> employee = employeeRepository.findAll();
         log.info("Employee data: {}", employee);
-
         List<EmployeeResponseDTO> result = employee.stream()
                 .map(emp -> EmployeeMapper.toDto(emp))
                 .collect(Collectors.toList());
@@ -47,8 +46,8 @@ public class EmployeeService {
         List<Employee> employee = employeeRepository.findAll();
 
         Double result = employee.stream()
-                .sorted(Comparator.comparing(employee1 -> employee1.getSalary()))
                 .map(emp -> emp.getSalary())
+                .sorted(Comparator.reverseOrder())
                 .findFirst()
                 .orElse(null);
 

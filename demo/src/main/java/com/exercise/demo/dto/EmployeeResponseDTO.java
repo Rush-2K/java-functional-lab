@@ -1,9 +1,15 @@
 package com.exercise.demo.dto;
 
 import com.exercise.demo.model.Employee;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeResponseDTO {
-    private Integer id;
+    public Integer id;
     private String name;
     private String department;
     private int age;
