@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -113,22 +114,181 @@ public class EmployeeServiceTest {
 
         //Then
         assertEquals(5000.0, result);
+
+//        verify(employeeRepository, times(1)).findAll();
+        verifyNoInteractions(employeeRepository);
     }
 
-    @Test
-    @DisplayName("should get average salary")
-    void shouldGetAverageSalarySuccessfully() {
-        //Given
-        Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
-        Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
-        Employee emp3 = new Employee(3, "Charlie", "Finance", 40, 5000.0);
+    @Nested
+    @DisplayName("Get Average Salary Test")
+    class getAverageSalaryTest {
+        @Test
+        @DisplayName("should get average salary")
+        void shouldGetAverageSalarySuccessfully() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "Finance", 40, 5000.0);
 
-        when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
 
-        //When
-        Double result = employeeService.getAverageSalary();
+            //When
+            Double result = employeeService.getAverageSalary();
 
-        //Then
-        assertEquals(4500.0, result);
+            //Then
+            assertEquals(4500.0, result);
+        }
+
+        @Test
+        @DisplayName("should get average salary equals to zero")
+        void shouldGetAverageSalaryZeroSuccessfully() {
+            //Given
+            when(employeeRepository.findAll()).thenReturn(List.of());
+
+            //When
+            Double result = employeeService.getAverageSalary();
+
+            //Then
+            assertEquals(0, result);
+        }
     }
+
+    @Nested
+    @DisplayName("Get Sum Salary")
+    class getSumSalary {
+
+        @Test
+        @DisplayName("Should get sum salary successfully")
+        void shouldGetSumSalarySuccessfully() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "Finance", 40, 5000.0);
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+
+            //When
+            Double result = employeeService.getSumSalary();
+
+            //Then
+            assertEquals(13500.0, result);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Get Sorted Salary Desc Test")
+    class getSortedSalaryDescTest {
+        @Test
+        @DisplayName("should get sorted salary desc successfully")
+        void shouldGetSortedSalaryDescSuccessfully() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "Finance", 40, 5000.0);
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+
+            //When
+            List<Double> result = employeeService.getSortedSalaryDesc();
+
+            //Then
+            assertEquals(5000.0, result.getFirst());
+            assertEquals(4000.0, result.get(2));
+        }
+    }
+
+    @Nested
+    @DisplayName("Get Distinct Department Test")
+    class getDistinctDepartmentTest {
+        @Test
+        @DisplayName("get distinct department successfuly")
+        void shouldgetDistinctDepartmentSuccessfuly() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "IT", 40, 5000.0);
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+
+            //When
+            List<String> result = employeeService.getDistinctDepartmentNames();
+
+            //Then
+            assertEquals(2, result.size());
+            assertTrue(result.contains("IT"));
+            assertTrue(result.contains("HR"));
+
+            verify(employeeRepository, times(1)).findAll();
+
+        }
+
+        @Test
+        @DisplayName("Should return empty list when no employees exists")
+        void shouldReturnEmptyListWhenNoEmployees() {
+            //Given
+            when(employeeRepository.findAll()).thenReturn(List.of());
+
+            //When
+            List<String> result = employeeService.getDistinctDepartmentNames();
+
+            //Then
+            assertTrue(result.isEmpty());
+
+            verify(employeeRepository, times(1)).findAll();
+        }
+    }
+
+    @Nested
+    @DisplayName("Get One Result only Test")
+    class getOneTest {
+        @Test
+        @DisplayName("Should return one result successfully")
+        void shouldReturnOneSuccessfully() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "Finance", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "Finance", 40, 5000.0);
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+
+            //When
+            EmployeeResponseDTO result = employeeService.getOne();
+
+            //Then
+            assertEquals("Alice", result.getName());
+
+            verify(employeeRepository, times(1)).findAll();
+        }
+    }
+
+    @Nested
+    @DisplayName("group employees by department test")
+    class groupEmployeesByDepartmentTest {
+        @Test
+        @DisplayName("should return group employees by department successfuly")
+        void shouldReturnGroupEmployeesByDeptSuccessfully() {
+            //Given
+            Employee emp1 = new Employee(1, "Alice", "IT", 25, 4000.0);
+            Employee emp2 = new Employee(2, "Bob", "HR", 35, 4500.0);
+            Employee emp3 = new Employee(3, "Charlie", "IT", 40, 5000.0);
+            when(employeeRepository.findAll()).thenReturn(List.of(emp1, emp2, emp3));
+
+            //When
+            Map<String, List<EmployeeResponseDTO>> result = employeeService.groupEmployeesByDepartment();
+
+            //Then
+            assertEquals(2, result.size()); //IT and HR
+
+            // check IT group
+            assertTrue(result.containsKey("IT"));
+            assertEquals(2, result.get("IT").size());
+            assertEquals("Alice", result.get("IT").get(0).getName());
+            assertEquals("Charlie", result.get("IT").get(1).getName());
+
+            // check HR group
+            assertTrue(result.containsKey("HR"));
+            assertEquals(1, result.get("HR").size());
+            assertEquals("Bob", result.get("HR").get(0).getName());
+
+            verify(employeeRepository, times(1)).findAll();
+        }
+    }
+
 }
