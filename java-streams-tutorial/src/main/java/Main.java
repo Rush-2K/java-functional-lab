@@ -78,7 +78,7 @@ public class Main {
                 .max(Comparator.comparing(Person::getAge))
                 .map(Person::getName);
 
-        oldestFemaleAge.ifPresent(System.out::println);
+//        oldestFemaleAge.ifPresent(System.out::println);
     }
 
     private static List<Person> getPeople() {

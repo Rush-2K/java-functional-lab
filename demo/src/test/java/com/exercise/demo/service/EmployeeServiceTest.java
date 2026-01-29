@@ -1,9 +1,8 @@
-package com.exercise.demo;
+package com.exercise.demo.service;
 
 import com.exercise.demo.dto.EmployeeResponseDTO;
 import com.exercise.demo.model.Employee;
 import com.exercise.demo.repository.EmployeeRepository;
-import com.exercise.demo.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

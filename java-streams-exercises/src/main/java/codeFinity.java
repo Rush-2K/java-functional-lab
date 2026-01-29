@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -9,9 +6,9 @@ public class codeFinity {
     public static void main(String[] args) {
 
 //        _q1();
-//        _q2();
+        _q2();
 //        _q3();
-        _q4();
+//        _q4();
     }
 
     static void _q1() {
@@ -29,10 +26,16 @@ public class codeFinity {
         // Use Stream API to find the length of the longest name in the list
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eva");
 
+//        int longestName = names.stream()
+//                .map(data -> data.length())
+//                .max((a, b) -> a.compareTo(b))
+//                        .orElseThrow(null);
+
         int longestName = names.stream()
                 .map(data -> data.length())
-                .max((a, b) -> a.compareTo(b))
-                        .orElseThrow(null);
+                .sorted(Comparator.reverseOrder())
+                .findFirst()
+                        .orElse(0);
 
         System.out.println(longestName);
     }

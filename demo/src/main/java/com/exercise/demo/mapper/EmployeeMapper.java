@@ -2,7 +2,9 @@ package com.exercise.demo.mapper;
 
 import com.exercise.demo.dto.EmployeeResponseDTO;
 import com.exercise.demo.model.Employee;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmployeeMapper {
      public static EmployeeResponseDTO toDto(Employee employee) {
         EmployeeResponseDTO employeeResponseDTO = new EmployeeResponseDTO();

@@ -2,11 +2,13 @@ package com.exercise.demo.controller;
 
 import com.exercise.demo.dto.EmployeeResponseDTO;
 import com.exercise.demo.model.Employee;
+import com.exercise.demo.service.EmployeeAnalyticsService;
 import com.exercise.demo.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +24,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private EmployeeAnalyticsService employeeAnalyticsService;
 
     // Get all employees in the IT department.
     @GetMapping("/getall")
@@ -149,6 +154,49 @@ public class EmployeeController {
     @GetMapping("/gpsummarize")
     public ResponseEntity<?> groupEmployeesByDeptAndSummarize() {
         Map<String, DoubleSummaryStatistics> data = employeeService.groupEmployeesByDeptAndSummarize();
+
+        return ResponseEntity.ok().body(data);
+    }
+
+    // Get average salary by department
+    @GetMapping("/gpavgsalary")
+    public ResponseEntity<?> getAverageSalaryByDept() {
+        Map<String, Double> data = employeeAnalyticsService.getAverageSalaryByDept();
+
+        return ResponseEntity.ok().body(data);
+    }
+
+    // Find top N highest-paid employees
+    // Sorts employees by salary descending.
+    // Returns the top n employees mapped to DTOs.
+    @GetMapping("/topN/{n}")
+    public ResponseEntity<?> topNHighestPaidSalary(@PathVariable int n) {
+        List<EmployeeResponseDTO> data = employeeAnalyticsService.topNHighestPaidSalary(n);
+
+        return ResponseEntity.ok().body(data);
+    }
+
+    // Get names of employees older than a given age
+    @GetMapping("/age/{age}")
+    public ResponseEntity<?> getEmployeeNamesOlderThan(@PathVariable int age) {
+        List<String> data = employeeAnalyticsService.getEmployeeNamesOlderThan(age);
+
+        return ResponseEntity.ok().body(data);
+    }
+
+    // Group employees by department and count them
+    @GetMapping("/departmentcount")
+    public ResponseEntity<?> groupEmployeesByDeptAndCount() {
+        Map<String, Long> data = employeeAnalyticsService.groupEmployeesByDeptAndCount();
+
+        return ResponseEntity.ok().body(data);
+    }
+
+
+    // Find the employee with the longest name
+    @GetMapping("/longestName")
+    public ResponseEntity<?> employeeWithLongestName() {
+        Optional<EmployeeResponseDTO> data = employeeAnalyticsService.employeeWithLongestName();
 
         return ResponseEntity.ok().body(data);
     }
