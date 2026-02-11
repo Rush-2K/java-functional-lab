@@ -6,9 +6,10 @@ public class codeFinity {
     public static void main(String[] args) {
 
 //        _q1();
-        _q2();
+//        _q2();
 //        _q3();
 //        _q4();
+        _q5();
     }
 
     static void _q1() {
@@ -66,6 +67,17 @@ public class codeFinity {
                 .sum();
 
         System.out.println(result);
+
+    }
+
+    static void _q5() {
+        int [] myNum = {10, 20, 30, 40};
+//        for(int num: myNum) {
+//            System.out.println(num);
+//        }
+        Arrays.stream(myNum)
+                .boxed()
+                .collect(Collectors.toList());
 
     }
 }

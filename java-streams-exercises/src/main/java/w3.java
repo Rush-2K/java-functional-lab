@@ -23,8 +23,8 @@ public class w3 {
 //        _q14();
 //        _q15();
 //        _q16();
-//        _q17();
-        _q18();
+        _q17();
+//        _q18();
     }
 
     static void _q1 () {
@@ -373,6 +373,13 @@ public class w3 {
             public String getProductName() {
                 return productName;
             }
+
+            @Override
+            public String toString() {
+                return "Order{" +
+                        "productName='" + productName + '\'' +
+                        '}';
+            }
         }
 
         class User {
@@ -393,6 +400,15 @@ public class w3 {
             public List<Order> getOrders() {
                 return orders;
             }
+
+            @Override
+            public String toString() {
+                return "User{" +
+                        "name='" + name + '\'' +
+                        ", age=" + age +
+                        ", orders=" + orders +
+                        '}';
+            }
         }
 
         List<User> users = Arrays.asList(
@@ -401,7 +417,9 @@ public class w3 {
                 new User("Charlie", 30, Arrays.asList(new Order("Mouse"), new Order("Keyboard")))
         );
 
-        List<String> result = users.stream()
+        System.out.println("Original data: " + users);
+
+        List<String> collect = users.stream()
                 .filter(user -> user.getAge() >= 18)
                 .flatMap(user -> user.getOrders().stream())
                 .map(user -> user.getProductName())
@@ -409,6 +427,6 @@ public class w3 {
                 .sorted()
                 .collect(Collectors.toList());
 
-        System.out.println(result);
+        System.out.println(collect);
     }
 }
