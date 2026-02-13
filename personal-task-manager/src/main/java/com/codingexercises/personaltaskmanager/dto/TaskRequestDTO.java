@@ -6,14 +6,15 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class TaskRequestDTO {
 
-    @Size(min = 2)
-    @NotBlank
+    @NotBlank(message = "Title cannot be blank")
     private String title;
 
     @NotNull
