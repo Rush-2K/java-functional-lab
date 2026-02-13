@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class medium {
@@ -32,6 +33,13 @@ public class medium {
 //        _q18();
 //        _q19();
 //        _q20();
+
+        // Intermediate Level Questions (21-40)
+//        _q21();
+//        _q22();
+//        _q23();
+//        _q24();
+        _q25();
     }
 
     static void _q1(List<Integer> numbers) {
@@ -247,5 +255,66 @@ public class medium {
                 .collect(Collectors.toList());
 
         System.out.println("Sorted List by their length: " + collect);
+    }
+
+    static void _q21() {
+        // Find the Sum of Digits of a Number
+
+        int number = 12345;
+        // convert integer to a string first
+        String s = String.valueOf(number);
+
+        // get an IntStream of character ASCII values
+        IntStream intStream = s.chars();
+
+        // Process the digits (e.g., convert ASCII to integer value
+        int sum = intStream.map(c -> c - '0') // Convert character ASCII to integer digit
+                .sum();
+
+        System.out.println("Sum of Digits: " + number + " is " + sum);
+    }
+
+    static void _q22() {
+        // Find the Factorial of a Number
+        int number = 5;
+        int sum = IntStream.rangeClosed(1, number)
+                        .reduce(1, (a,b) -> a * b);
+
+        System.out.println("Factorial of " + number + " is " + sum);
+    }
+
+    static void _q23() {
+        // Find the Second-Largest Element in a List
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        int i = numbers.stream()
+                .sorted((a, b) -> b.compareTo(a))
+                .skip(1)
+                .findFirst()
+                .orElse(0);
+
+        System.out.println("Second largest of " + numbers + " is " + i);
+    }
+
+    static void _q24() {
+//        Find the Second-Smallest Element in a List
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        int i = numbers.stream()
+                .sorted()
+                .skip(1)
+                .findFirst()
+                .orElse(0);
+
+        System.out.println("Second smallest of " + numbers + " is " + i);
+    }
+
+    static void _q25() {
+        // Find the Longest String in a List
+        List<String> words = List.of("apple", "banana", "kiwi");
+        String s = words.stream()
+                .sorted(Comparator.comparingInt(String::length).reversed())
+                .findFirst()
+                .orElse("");
+
+        System.out.println("Longest String in " + words + " is " + s);
     }
 }

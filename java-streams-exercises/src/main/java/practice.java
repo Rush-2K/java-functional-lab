@@ -40,6 +40,6 @@ public class practice {
         Arrays.stream(numbers)
                 .sorted()
                 .boxed()
-                .collect(Collectors.toList())
+                .collect(Collectors.toList());
     }
 }
