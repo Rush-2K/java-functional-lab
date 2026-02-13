@@ -1,0 +1,9 @@
+The CRUD Operations:
+
+POST /tasks: Create a task.
+
+GET /tasks: Read all tasks.
+
+PUT /tasks/{id}: Update completion status.
+
+DELETE /tasks/{id}: Delete a task.

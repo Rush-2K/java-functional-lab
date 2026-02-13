@@ -1,0 +1,10 @@
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Setup Spring Project', true, 'HIGH', '2026-02-10');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Practice String Reverse', true, 'MEDIUM', '2026-02-11');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Java Interview', false, 'HIGH', '2026-02-12');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Buy Groceries', false, 'LOW', '2026-02-13');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Clean Room', false, 'LOW', '2026-02-13');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Update LinkedIn', false, 'MEDIUM', '2026-02-14');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Fix Stream Bug', false, 'HIGH', '2026-02-12');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Read Java 21 Features', false, 'MEDIUM', '2026-02-20');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Morning Gym', true, 'LOW', '2026-02-12');
+INSERT INTO tasks (title, completed, priority, due_date) VALUES ('Review DTO Pattern', false, 'HIGH', '2026-02-15');
