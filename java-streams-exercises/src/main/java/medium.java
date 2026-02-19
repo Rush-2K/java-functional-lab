@@ -1,8 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -39,7 +36,13 @@ public class medium {
 //        _q22();
 //        _q23();
 //        _q24();
-        _q25();
+//        _q25();
+//        _q26();
+//        _q27();
+//        _q28();
+//        _q29();
+//        _q30();
+        _q31();
     }
 
     static void _q1(List<Integer> numbers) {
@@ -316,5 +319,110 @@ public class medium {
                 .orElse("");
 
         System.out.println("Longest String in " + words + " is " + s);
+    }
+
+    static void _q26() {
+        // Find the Shortest String in a List
+
+        List<String> words = List.of("apple", "banana", "kiwi");
+        String shortest = words.stream()
+                .sorted(Comparator.comparingInt(s -> s.length()))
+                .findFirst()
+                .orElse("");
+
+        System.out.println("Shortest String in " + words + " is " + shortest);
+    }
+
+    static void _q27() {
+//        Group a List of Strings by Their Length
+//        output: Grouped by Length: {4=[kiwi], 5=[apple], 6=[banana]}
+        List<String> words = List.of("apple", "banana", "kiwi");
+        Map<Integer, List<String>> collect = words.stream()
+                .collect(Collectors.groupingBy(s -> s.length()));
+
+        System.out.println("Grouped by length: " + collect);
+
+    }
+
+    static void _q28() {
+        // Group a List of Objects by a Specific Attribute
+        // Output: Grouped by Age: {25=[Alice, Charlie], 30=[Bob]}
+
+        class Person {
+            String name;
+            int age;
+
+            public Person(String name, int age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getAge() {
+                return age;
+            }
+
+            public void setAge(int age) {
+                this.age = age;
+            }
+        }
+
+        List<Person> people = Arrays.asList(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Charlie", 25)
+        );
+
+        Map<Integer, List<String>> collect = people.stream()
+                .collect(Collectors.groupingBy(p -> p.getAge(),
+                        Collectors.mapping(e -> e.getName(),
+                                Collectors.toList())));
+        System.out.println("Grouped by Age: " + collect);
+
+    }
+
+    static void _q29() {
+        // Partition a List of Integers into Even and Odd Numbers
+        // Output: Partitioned: {false=[1, 3, 5], true=[2, 4]}
+
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        Map<Boolean, List<Integer>> collect = numbers.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+
+        System.out.println("Partitioned: " + collect);
+
+    }
+
+    static void _q30() {
+        // Merge Two Lists into a Single List
+        List<Integer> list1 = List.of(1, 2, 3);
+        List<Integer> list2 = List.of(4, 5, 6);
+
+        List<Integer> collect = Stream.of(list1, list2)
+                .flatMap(s -> s.stream())
+                .collect(Collectors.toList());
+
+        System.out.println("Merged List: " + collect);
+    }
+
+    static void _q31() {
+        // Find the Intersection of Two Lists
+        // Output: Intersection: [3, 4]
+
+        List<Integer> list1 = List.of(1, 2, 3, 4);
+        List<Integer> list2 = List.of(3, 4, 5, 6);
+
+        List<Integer> collect = list1.stream()
+                .filter(s -> list2.contains(s))
+                .collect(Collectors.toList());
+
+        System.out.println("Intersection: " + collect);
     }
 }
