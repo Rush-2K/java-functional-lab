@@ -42,7 +42,14 @@ public class medium {
 //        _q28();
 //        _q29();
 //        _q30();
-        _q31();
+//        _q31();
+//        _q32();
+//        _q33();
+//        _q34();
+//        _q35();
+//        _q36();
+//        _q37();
+//        _q38();
     }
 
     static void _q1(List<Integer> numbers) {
@@ -424,5 +431,106 @@ public class medium {
                 .collect(Collectors.toList());
 
         System.out.println("Intersection: " + collect);
+    }
+
+    static void _q32() {
+        // Find the Union of Two Lists
+        // Output: Union: [1, 2, 3, 4, 5]
+        List<Integer> list1 = List.of(1, 2, 3);
+        List<Integer> list2 = List.of(3, 4, 5);
+
+        List<Integer> collect = Stream.of(list1, list2)
+                .flatMap(s -> s.stream())
+                .distinct()
+                .collect(Collectors.toList());
+
+        System.out.println("Union: " + collect);
+    }
+
+    static void _q33() {
+        // Find the Difference Between Two Lists
+        // Output: Difference: [1, 2]
+        List<Integer> list1 = List.of(1, 2, 3, 4);
+        List<Integer> list2 = List.of(3, 4, 5, 6, 7);
+
+//        List<Integer> collect = list1.stream()
+//                .filter(s -> !list2.contains(s))
+//                .collect(Collectors.toList());
+
+//        System.out.println("Difference: " + collect);
+
+        Stream<Integer> list1Stream = list1.stream()
+                .filter(s -> !list2.contains(s));
+
+        Stream<Integer> list2Stream = list2.stream()
+                .filter(s -> !list1.contains(s));
+
+        List<Integer> collect = Stream.concat(list1Stream, list2Stream)
+                .collect(Collectors.toList());
+
+        System.out.println("Full difference: " + collect);
+
+    }
+
+    static void _q34() {
+        // Count the Occurrences of Each Element in a List
+        // Word Counts: {orange=1, banana=1, apple=2}
+        List<String> words = List.of("apple", "banana", "apple", "orange");
+
+        Map<String, Long> collect = words.stream()
+                .collect(Collectors.groupingBy(word -> word,
+                        Collectors.counting()));
+
+        System.out.println("Word Counts: " + collect);
+    }
+
+    static void _q35() {
+        // Count the Occurrences of Each Character in a String
+        // Output: Character Counts: {e=1, h=1, l=2, o=1}
+        String input = "hello";
+        Map<Character, Long> collect = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(character -> character,
+                        Collectors.counting()));
+
+        System.out.println("Character Counts: " + collect);
+    }
+
+    static void _q36() {
+        // Count the Occurrences of Each Word in a String
+        // Word Counts: {hello=2, world=1}
+        String input = "hello world hello";
+        String[] s = input.split(" ");
+        Map<String, Long> collect = Arrays.stream(s)
+                .collect(Collectors.groupingBy(word -> word,
+                        Collectors.counting()));
+
+        System.out.println("Word Counts: " + collect);
+    }
+
+    static void _q37() {
+        // Count the Occurrences of Each Vowel in a String
+        // Vowel Counts: {e=1, o=2}
+        String input = "hello world";
+        Map<Character, Long> collect = input.chars()
+                .mapToObj(s -> (char) s)
+                .filter(c -> "aeiou".contains(String.valueOf(c)))
+                .collect(Collectors.groupingBy(character -> character,
+                        Collectors.counting()));
+
+        System.out.println("Vowel Counts: " + collect);
+    }
+
+    static void _q38() {
+        // Count the Occurrences of Each Digit in a String
+        // Output: Digit Counts: {1=1, 2=1, 3=1, 4=1, 5=1, 6=1}
+        String input = "hello 123 world 456";
+        Map<Character, Long> collect = input.chars()
+                .mapToObj(c -> (char) c)
+                .filter(character -> Character.isDigit(character))
+                .collect(Collectors.groupingBy(digit -> digit,
+                        Collectors.counting()));
+
+        System.out.println("Digit Counts: " + collect);
     }
 }
