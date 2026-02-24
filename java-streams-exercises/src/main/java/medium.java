@@ -50,6 +50,8 @@ public class medium {
 //        _q36();
 //        _q37();
 //        _q38();
+//        _q39();
+//        _q40();
     }
 
     static void _q1(List<Integer> numbers) {
@@ -532,5 +534,40 @@ public class medium {
                         Collectors.counting()));
 
         System.out.println("Digit Counts: " + collect);
+    }
+
+    static void _q39() {
+        // Reverse a List Using Streams
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        List<Integer> reversed = new ArrayList<>(numbers);
+
+//        List<Integer> collect = IntStream.range(0, numbers.size()) // stream of 0, 1, 2, 3, 4 (range)
+//                .map(i -> numbers.size() - 1 - i) // transforming the index (position) used to grab the numbers
+//                .mapToObj(n -> numbers.get(n))
+//                .collect(Collectors.toList());
+
+        Collections.reverse(reversed);
+
+        System.out.println(reversed);
+    }
+
+    static void _q40() {
+        // Reverse a String Using Streams
+        // Output: Reversed String: olleh
+        String input = "hello";
+
+//        String collect = input.chars()
+//                .map(i -> input.length() - 1 - i)
+//                .mapToObj(c -> (char) c)
+//                .map(String::valueOf)
+//                .collect(Collectors.joining());
+
+        String reduce = input.chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .reduce("", (a, b) -> b + a);
+
+//        String reversedWithPerformance = new StringBuilder(input).reverse().toString();
+
+        System.out.println("Reversed String: " + reduce);
     }
 }
