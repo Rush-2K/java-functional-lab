@@ -2,9 +2,11 @@ package com.codingexercises.personaltaskmanager.service;
 
 import com.codingexercises.personaltaskmanager.dto.TaskRequestDTO;
 import com.codingexercises.personaltaskmanager.dto.TaskResponseDTO;
+import com.codingexercises.personaltaskmanager.dto.UpdateTaskRequestDTO;
 import com.codingexercises.personaltaskmanager.entity.Prio;
 import com.codingexercises.personaltaskmanager.entity.Task;
 import com.codingexercises.personaltaskmanager.repository.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -137,6 +140,106 @@ public class TaskServiceTest {
             //then
             assertFalse(violations.isEmpty());
             assertEquals("Title cannot be blank", violations.iterator().next().getMessage());
+        }
+    }
+
+    @Nested
+    @DisplayName("Update Task Test")
+    class updateTaskTest {
+
+        @Test
+        @DisplayName("Should Update Task Successfully")
+        void shouldUpdateTaskSuccessfully() {
+            // 1. arrange
+            Long taskId = 1L;
+
+            // Existing task in the DB
+            Task existingTask = Task.builder()
+                    .title("Old Title")
+                    .priority(Prio.LOW)
+                    .build();
+
+            // The request - we only want to change the title, the rest are null
+            UpdateTaskRequestDTO updateTaskRequestDTO = new UpdateTaskRequestDTO();
+            updateTaskRequestDTO.setTitle("New Title");
+
+            when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
+
+            // 2. act
+            taskService.updateTask(taskId, updateTaskRequestDTO);
+
+            // 3. assert
+            assertEquals("New Title", existingTask.getTitle());
+            assertEquals(Prio.LOW, existingTask.getPriority());
+
+            verify(taskRepository, times(1)).save(any(Task.class));
+        }
+
+        @Test
+        @DisplayName("Should Throw Exception")
+        void shouldThrowExceptionWhenTaskNotFound() {
+            // ARRANGE
+            Long taskId = 1L;
+            UpdateTaskRequestDTO request = new UpdateTaskRequestDTO();
+
+            // mock repo to return empty
+            when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+            // ACT & ASSERT
+            EntityNotFoundException exception = assertThrows(
+                    EntityNotFoundException.class,
+                    () -> taskService.updateTask(taskId, request));
+
+            assertEquals("Task cannot be found", exception.getMessage());
+
+            verify(taskRepository, never()).save(any(Task.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("Delete Task Test")
+    class deleteTaskTest {
+
+        @Test
+        @DisplayName("should delete task successfuly")
+        void shouldDeleteTaskSuccessfully() {
+            // arrange
+            Long taskId = 1L;
+
+            // Existing task in the DB
+            Task existingTask = Task.builder()
+                    .title("Old Title")
+                    .priority(Prio.LOW)
+                    .build();
+
+            when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
+
+            // act
+            taskService.deleteTask(taskId);
+
+            // assert
+            verify(taskRepository, times(1)).delete(any(Task.class));
+
+        }
+
+        @Test
+        @DisplayName("should throw exception when deleting non-existent task")
+        void shouldThrowExceptionWhenTaskNotFound() {
+            // arrange
+            Long taskId = 99L;
+
+            when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+            // act
+            EntityNotFoundException exception = assertThrows(
+                    EntityNotFoundException.class,
+                    () -> taskService.deleteTask(taskId)
+            );
+
+            // assert
+            assertEquals("Task Not Found", exception.getMessage());
+
+            verify(taskRepository, never()).delete(any(Task.class));
         }
     }
 }
